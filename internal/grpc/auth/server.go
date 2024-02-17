@@ -1,7 +1,7 @@
 package auth
 
-import sso1 ""
+import ssov1 "github.com/Andrew-Savin-msk/protos/gen/go/sso"
 
 type serverApi struct {
-	sso1.UnimplementedAuthServer
+	ssov1.UnimplementedAuthServer
 }
