@@ -1,0 +1,6 @@
+[Db]
+  path = "some/db/path"
+
+[GRPCSrv]
+  port = "44044"
+  timeout = "10s"
