@@ -11,8 +11,9 @@ import (
 )
 
 type Config struct {
-	Db      Db
-	GRPCSrv GRPCSrv
+	Db      Db      `toml:"db_config"`
+	GRPCSrv GRPCSrv `toml:"grpc_server_config"`
+	App     App     `toml:"app_config"`
 }
 
 type Db struct {
@@ -22,6 +23,11 @@ type Db struct {
 type GRPCSrv struct {
 	Port    string        `toml:"port"`
 	Timeout time.Duration `toml:"timeout"`
+}
+
+type App struct {
+	TokenTtl time.Duration `toml:"token_ttl"`
+	LogLevel string        `toml:"log_level"`
 }
 
 func Load() *Config {

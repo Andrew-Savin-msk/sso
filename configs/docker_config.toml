@@ -1,6 +1,10 @@
-[Db]
+[db_config]
   path = "some/db/path"
 
-[GRPCSrv]
+[grpc_server_config]
   port = "44044"
   timeout = "10s"
+
+[app_config]
+  token_ttl = "30m0s"
+  log_level = "local"

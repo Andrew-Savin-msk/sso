@@ -2,11 +2,44 @@ package main
 
 import (
 	"Andrew-Savin-msk/sso/internal/config"
-	"fmt"
+	"log/slog"
+	"os"
+)
+
+const (
+	levelLocal = "local"
+	levelDev   = "dev"
+	levelProd  = "prod"
 )
 
 func main() {
 	cfg := config.Load()
 
-	fmt.Println(cfg)
+	log := setupLogger(cfg.App.LogLevel)
+
+	log.Info("starting application",
+		slog.String("level", cfg.App.LogLevel),
+		slog.Any("cfg", cfg),
+		slog.String("port", cfg.GRPCSrv.Port),
+	)
+}
+
+func setupLogger(level string) *slog.Logger {
+	var log *slog.Logger
+
+	switch level {
+	case levelLocal:
+		log = slog.New(
+			slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}),
+		)
+	case levelDev:
+		log = slog.New(
+			slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}),
+		)
+	case levelProd:
+		log = slog.New(
+			slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo}),
+		)
+	}
+	return log
 }
