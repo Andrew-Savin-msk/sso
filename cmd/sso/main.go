@@ -1,9 +1,10 @@
 package main
 
 import (
-	"Andrew-Savin-msk/sso/internal/config"
 	"log/slog"
 	"os"
+
+	"github.com/Andrew-Savin-msk/sso/internal/config"
 )
 
 const (
