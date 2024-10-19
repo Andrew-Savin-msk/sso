@@ -31,7 +31,7 @@ func (s *serverApi) IsAdmin(ctx context.Context, req *ssov1.IsAdminRequest) (*ss
 		return nil, status.Error(codes.InvalidArgument, "user_id is not provided")
 	}
 
-	isAdmin, err := s.auth.IsAdmin(ctx, int(req.GetUserId()))
+	isAdmin, err := s.auth.IsAdmin(ctx, req.GetUserId())
 	if err != nil {
 		// TODO: ...
 		return nil, status.Error(codes.Internal, grpchandlers.ErrInternalServiceError.Error())
