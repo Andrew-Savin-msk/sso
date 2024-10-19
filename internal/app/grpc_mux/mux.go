@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"net"
 
-	authrpc "github.com/Andrew-Savin-msk/sso/internal/grpc/auth"
+	authrpc "github.com/Andrew-Savin-msk/sso/internal/grpc_handlers/auth"
 	"google.golang.org/grpc"
 )
 
