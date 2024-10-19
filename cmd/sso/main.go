@@ -21,7 +21,7 @@ func main() {
 	log.Info("starting application",
 		slog.String("level", cfg.App.LogLevel),
 		slog.Any("cfg", cfg),
-		slog.String("port", cfg.GRPCSrv.Port),
+		slog.Int("port", cfg.GRPCSrv.Port),
 	)
 }
 

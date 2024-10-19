@@ -1,5 +1,7 @@
 package auth
 
+// THIS PACKAGE JUST IMPLEMENTS GRPC AUTH HANDLER INTERFACES
+
 import (
 	"context"
 
@@ -7,7 +9,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-// THIS PACKAGE JUST IMPLEMENTS GRPC AUTH HANDLER INTERFACES
 type serverApi struct {
 	ssov1.UnimplementedAuthServer
 }

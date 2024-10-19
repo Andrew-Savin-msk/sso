@@ -21,7 +21,7 @@ type Db struct {
 }
 
 type GRPCSrv struct {
-	Port    string        `toml:"port"`
+	Port    int           `toml:"port"`
 	Timeout time.Duration `toml:"timeout"`
 }
 

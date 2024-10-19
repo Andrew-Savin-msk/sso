@@ -2,7 +2,7 @@
   path = "some/db/path"
 
 [grpc_server_config]
-  port = "44044"
+  port = 44044
   timeout = "10s"
 
 [app_config]
