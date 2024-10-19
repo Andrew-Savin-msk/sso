@@ -7,27 +7,22 @@ import (
 
 	ssov1 "github.com/Andrew-Savin-msk/protos/gen/go/sso"
 	grpchandlers "github.com/Andrew-Savin-msk/sso/internal/grpc_handlers"
+	"github.com/Andrew-Savin-msk/sso/internal/services"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-type Auth interface {
-	Login(ctx context.Context, email, password string, appId int) (string, error)
-	Register(ctx context.Context, email, password string) (int64, error)
-	IsAdmin(ctx context.Context, userId int) (bool, error)
-}
-
 type serverApi struct {
 	ssov1.UnimplementedAuthServer
-	auth Auth
+	auth services.Auth
 }
 
 const (
 	emptyValue = 0
 )
 
-func Register(srv *grpc.Server, auth Auth) {
+func Register(srv *grpc.Server, auth services.Auth) {
 	ssov1.RegisterAuthServer(srv, &serverApi{auth: auth})
 }
 
