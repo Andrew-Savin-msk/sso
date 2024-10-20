@@ -32,7 +32,7 @@ func New(log *slog.Logger, authSrv services.Auth, port int) *GrpcMux {
 func (m *GrpcMux) MustRun() {
 	err := m.Run()
 	if err != nil {
-		log.Fatalf("unable to start gRPC server, ended with error: %w", err)
+		log.Fatalf("unable to start gRPC server, ended with error: %s", err)
 	}
 }
 
