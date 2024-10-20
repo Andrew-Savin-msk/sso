@@ -4,6 +4,7 @@ package auth
 
 import (
 	"context"
+	"errors"
 
 	ssov1 "github.com/Andrew-Savin-msk/protos/gen/go/sso"
 	grpchandlers "github.com/Andrew-Savin-msk/sso/internal/grpc_handlers"
@@ -57,7 +58,9 @@ func (s *serverApi) Login(ctx context.Context, req *ssov1.LoginRequest) (*ssov1.
 
 	token, err := s.auth.Login(ctx, req.GetEmail(), req.GetPassword(), int(req.GetAppId()))
 	if err != nil {
-		// TODO: ...
+		if errors.Is(err, services.ErrInvalidCredentials) {
+			return nil, status.Error(codes.Internal, grpchandlers.ErrInvalidCredentials.Error())
+		}
 		return nil, status.Error(codes.Internal, grpchandlers.ErrInternalServiceError.Error())
 	}
 
@@ -77,7 +80,9 @@ func (s *serverApi) Register(ctx context.Context, req *ssov1.RegisterRequest) (*
 
 	userId, err := s.auth.Register(ctx, req.GetEmail(), req.GetPassword())
 	if err != nil {
-		// TODO: ...
+		if errors.Is(err, services.ErrInvalidCredentials) {
+			return nil, status.Error(codes.Internal, grpchandlers.ErrInvalidCredentials.Error())
+		}
 		return nil, status.Error(codes.Internal, grpchandlers.ErrInternalServiceError.Error())
 	}
 

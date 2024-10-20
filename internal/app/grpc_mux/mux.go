@@ -7,6 +7,7 @@ import (
 	"net"
 
 	authrpc "github.com/Andrew-Savin-msk/sso/internal/grpc_handlers/auth"
+	"github.com/Andrew-Savin-msk/sso/internal/services"
 	"google.golang.org/grpc"
 )
 
@@ -16,10 +17,10 @@ type GrpcMux struct {
 	port       int
 }
 
-func New(log *slog.Logger, port int) *GrpcMux {
+func New(log *slog.Logger, authSrv services.Auth, port int) *GrpcMux {
 	gRPCServer := grpc.NewServer()
 
-	authrpc.Register(gRPCServer)
+	authrpc.Register(gRPCServer, authSrv)
 
 	return &GrpcMux{
 		log:        log,

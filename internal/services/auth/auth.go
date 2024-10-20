@@ -47,6 +47,7 @@ func (a *Auth) Login(ctx context.Context, email, pass string, appId int) (string
 
 			return "", fmt.Errorf("%s: %w", op, services.ErrInvalidCredentials)
 		}
+		return "", fmt.Errorf("%s: %w", op, err)
 	}
 
 	err = bcrypt.CompareHashAndPassword(user.PasswdHash, []byte(pass))
@@ -87,6 +88,13 @@ func (a *Auth) Register(ctx context.Context, email, pass string) (int64, error) 
 
 	id, err := a.userSaver.Save(ctx, email, pHash)
 	if err != nil {
+
+		if errors.Is(err, store.ErrUserExists) {
+			a.log.Warn("user not found with error: %w", err)
+
+			return 0, fmt.Errorf("%s: %w", op, services.ErrInvalidCredentials)
+		}
+
 		log.Error("failed to save user with error: %w", err)
 
 		return 0, fmt.Errorf("%s: %w", op, err)
@@ -104,13 +112,21 @@ func (a *Auth) IsAdmin(ctx context.Context, userId int64) (bool, error) {
 
 	log.Info("checking if user is admin")
 
-	isAdmin, err := a.userProvider.IsAdmin(ctx, int64(userId))
+	isAdmin, err := a.userProvider.IsAdmin(ctx, userId)
 	if err != nil {
 		if errors.Is(err, store.ErrUserNotFound) {
 			a.log.Warn("user not found with error: %w", err)
 
-			return false, fmt.Errorf("%s: %w", op, err)
+			return false, fmt.Errorf("%s: %w", op, services.ErrInvalidCredentials)
 		}
+
+		if errors.Is(err, store.ErrAppNotFound) {
+			a.log.Warn("app not found with error: %w", err)
+
+			return false, fmt.Errorf("%s: %w", op, services.ErrInvalidAppId)
+		}
+
+		return false, fmt.Errorf("%s: %w", op, err)
 	}
 
 	log.Info("checked if user is admin", slog.Bool("is_admin", isAdmin))
