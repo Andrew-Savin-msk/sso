@@ -113,12 +113,12 @@ CREATE TABLE IF NOT EXISTS apps (
   path = "some/db/path"
 
 [grpc_server_config]
-  port = 44044
+  port = <port>
   timeout = "10s"
 
 [app_config]
   token_ttl = "30m0s"
-  log_level = "local"
+  log_level = "<local/dev/prod>"
 ```
 
 ## Переменные окружения
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS apps (
    Убедитесь, что у вас установлены Docker и Docker Compose. Установите переменную окружения для пути к конфигурационному файлу:
 
    ```bash
-   export DOCKER_CONFIG_PATH="<path_to_docker_config>"
+   DOCKER_CONFIG_PATH="<path_to_docker_config>"
    ```
 
 3. **Запустите сервис**:
@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS apps (
    docker-compose up -d
    ```
 
-   Сервис gRPC будет доступен на `localhost:44044`.
+   Сервис gRPC будет доступен на `localhost:<port>`.
 
 ## Логирование
 
